@@ -82,6 +82,11 @@ html, body {
     border-radius: 5px;
 }
 
+.arrowImg{
+    width:102px;
+    height: auto;
+}
+
 button.gutter-sm{
     width:10em;
 }

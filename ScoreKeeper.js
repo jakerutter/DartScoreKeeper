@@ -1,6 +1,5 @@
 //TODO
-//add current player indicator
-//add skip to next player button
+//add undo - go back functionality { this would require an object that maintains the history of previous throws / scores }
 //add 501  
 //add cricket
 //add around the world
@@ -12,6 +11,10 @@ var game  = {
     currentPlayer:1,
     currentThrows:0
 };
+
+var gameHistory = {
+
+}
 
 var possibleOuts = {
     2 : ['D1'],
@@ -182,65 +185,83 @@ function playerSelection(players)
 {
     if(players == 1)
     {
-        //reveal one player box
-        var playerBox = document.getElementById("playerBox1");
-        playerBox.classList.remove("hidden");
-
-        //add 1 player to  game
-        game.players = 1;
-        game.playerBoxes.push("playerBox1of1");
-        game.playerScores.push("player1of1");
-        game.playerOutsElems.push("player1of1Outs");
-
+        initSinglePlayerGame();
     }
     else if(players == 2)
     {
-        //reveal two player boxes
-        var playerBox = document.getElementById("playerBox2");
-        playerBox.classList.remove("hidden");
-
-        //add 2 players to  game
-        game.players = 2;
-        game.playerBoxes.push("playerBox1of2", "playerBox2of2");
-        game.playerScores.push("player1of2","player2of2");
-        game.playerOutsElems.push("player1of2Outs","player2of2Outs");
+        initTwoPlayerGame();
     }
     else if(players == 3)
     {
-        //reveal three player boxes
-        var playerBox = document.getElementById("playerBox3");
-        playerBox.classList.remove("hidden");
-
-        //add 3 players to  game
-        game.players = 3;
-        game.playerBoxes.push("playerBox1of3", "playerBox2of3", "playerBox3of3");
-        game.playerScores.push("player1of3","player2of3","player3of3");
-        game.playerOutsElems.push("player1of3Outs","player2of3Outs","player3of3Outs");
+        initThreePlayerGame();
     }
     else
     {
-        //reveal four player boxes
-        var playerBox = document.getElementById("playerBox4");
-        playerBox.classList.remove("hidden");
-
-        //add 4 players to  game
-        game.players = 4;
-        game.playerBoxes.push("playerBox1of4", "playerBox2of4", "playerBox3of4", "playerBox4of4");
-        game.playerScores.push("player1of4","player2of4","player3of4","player4of4");
-        game.playerOutsElems.push("player1of4Outs","player2of4Outs","player3of4Outs","player4of4Outs");
+        initFourPlayerGame();
     }
+
     //set current player
     displayCurrentPlayer();
+    //hide intro and show game boxes
+    hideIntroShowGameBoxes();
+    //add click function for score buttons
+    initScoreButtons();
+}
 
-    var intro = document.getElementById("introText");
-    intro.classList.add("hidden");
+function initSinglePlayerGame()
+{
+     //reveal one player box
+     var playerBox = document.getElementById("playerBox1");
+     playerBox.classList.remove("hidden");
 
-    var playerBoxes = document.getElementById("playerBoxes");
-    playerBoxes.classList.remove("hidden");
+     //add 1 player to  game
+     game.players = 1;
+     game.playerBoxes.push("playerBox1of1");
+     game.playerScores.push("player1of1");
+     game.playerOutsElems.push("player1of1Outs");
+}
 
-    var scoreGrid = document.getElementById("scoreGrid");
-    scoreGrid.classList.remove("hidden");
+function  initTwoPlayerGame()
+{
+    //reveal two player boxes
+    var playerBox = document.getElementById("playerBox2");
+    playerBox.classList.remove("hidden");
 
+    //add 2 players to  game
+    game.players = 2;
+    game.playerBoxes.push("playerBox1of2", "playerBox2of2");
+    game.playerScores.push("player1of2","player2of2");
+    game.playerOutsElems.push("player1of2Outs","player2of2Outs");
+}
+
+function initThreePlayerGame()
+{
+    //reveal three player boxes
+    var playerBox = document.getElementById("playerBox3");
+    playerBox.classList.remove("hidden");
+
+    //add 3 players to  game
+    game.players = 3;
+    game.playerBoxes.push("playerBox1of3", "playerBox2of3", "playerBox3of3");
+    game.playerScores.push("player1of3","player2of3","player3of3");
+    game.playerOutsElems.push("player1of3Outs","player2of3Outs","player3of3Outs");
+}
+
+function initFourPlayerGame()
+{
+    //reveal four player boxes
+    var playerBox = document.getElementById("playerBox4");
+    playerBox.classList.remove("hidden");
+
+    //add 4 players to  game
+    game.players = 4;
+    game.playerBoxes.push("playerBox1of4", "playerBox2of4", "playerBox3of4", "playerBox4of4");
+    game.playerScores.push("player1of4","player2of4","player3of4","player4of4");
+    game.playerOutsElems.push("player1of4Outs","player2of4Outs","player3of4Outs","player4of4Outs");
+}
+
+function initScoreButtons()
+{
     var scoreBtns = document.querySelectorAll(".scoreBtn");
 
     let scoreBtnArray = Array.prototype.slice.call(scoreBtns);
@@ -252,6 +273,18 @@ function playerSelection(players)
             registerScore(this.innerText);
         })
     });
+}
+
+function hideIntroShowGameBoxes()
+{
+    var intro = document.getElementById("introText");
+    intro.classList.add("hidden");
+
+    var playerBoxes = document.getElementById("playerBoxes");
+    playerBoxes.classList.remove("hidden");
+
+    var scoreGrid = document.getElementById("scoreGrid");
+    scoreGrid.classList.remove("hidden");
 }
 
 function registerScore(throwScore)
@@ -285,23 +318,8 @@ function registerScore(throwScore)
         calculateAndDisplayOuts(currentScore);
     }
 
-    //if throws == 3 switch to next player
-    if(game.currentThrows ==  3)
-    {
-        //set next player as current
-        let players = game.players;
-        if(game.currentPlayer == players)
-        {
-            game.currentPlayer = 1;
-        }
-        else
-        {
-            game.currentPlayer += 1;
-        }
-        //reset current throws to 0
-        game.currentThrows = 0;
-        displayCurrentPlayer();
-    }
+    advanceToNextThrower();
+
 }
 
 function getScore(throwScore)
@@ -371,4 +389,27 @@ function displayCurrentPlayer()
     let currentPlayerElem = game.playerBoxes[currentPlayer];
     var currentElem = document.getElementById(currentPlayerElem);
     currentElem.classList.add("currentPlayer");
+}
+
+function advanceToNextThrower(force)
+{
+    //if throws == 3 switch to next player
+    if(force || game.currentThrows ==  3)
+    {
+        //set next player as current
+        let players = game.players;
+        if(game.currentPlayer == players)
+        {
+            game.currentPlayer = 1;
+        }
+        else
+        {
+            game.currentPlayer += 1;
+        }
+        
+        //set throws to 0
+        game.currentThrows = 0;
+
+        displayCurrentPlayer();
+    }
 }
