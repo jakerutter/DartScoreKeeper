@@ -1,5 +1,7 @@
 //TODO
 //add undo - go back functionality { this would require an object that maintains the history of previous throws / scores }
+//add bull and double bull score buttons
+//bust needs to immediately skip turn
 //add 501  
 //add cricket
 //add around the world
@@ -329,7 +331,8 @@ function getScoreAndUpdateUI(throwScore)
         //BUSTED
         //do not update score
         console.log("BUST");
-        advanceToNextThrower();
+        showBustModal();
+        advanceToNextThrower(true);
     }
 
     //update score element
@@ -407,6 +410,20 @@ function displayCurrentPlayer()
     let currentPlayerElem = game.playerBoxes[currentPlayer];
     var currentElem = document.getElementById(currentPlayerElem);
     currentElem.classList.add("currentPlayer");
+}
+
+function showBustModal()
+{
+    var modal = document.getElementById("modalContent");
+    modal.style["display"] = "block";
+    
+    setTimeout(hideBustModal, 1000);
+}
+
+function hideBustModal()
+{
+    var modal = document.getElementById("modalContent");
+    modal.style["display"] = "none";
 }
 
 function advanceToNextThrower(force)
