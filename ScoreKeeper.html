@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="ScoreKeeper.js"></script>
+<link rel="stylesheet" type="text/css" href="Style.css">
+</head>
+<body>
+<h1>301 Scoring</h1>
+
+<div id="introText">
+    <div>How many players are playing 301? (1-4)</div>
+    <div>
+        <button class="selBtn" onclick="playerSelection(1);">1</button>
+        <button class="selBtn" onclick="playerSelection(2);">2</button>
+        <button class="selBtn" onclick="playerSelection(3);">3</button>
+        <button class="selBtn" onclick="playerSelection(4);">4</button>
+    </div>
+</div>  
+
+
+<div id="playerBoxes" class="playerBoxes center hidden">
+    <div id="playerBox1" class="hidden">
+        <div class='playerBox center' >Player Score
+            <h1 id="player1of1">301</h1>
+            <h5 id="player1of1Outs"></h5>
+        </div>
+    </div>
+    <div id="playerBox2" class="hidden">
+        <div class='playerBox2 center' >Player One Score
+            <h1 id="player1of2">301</h1>
+            <h5 id="player1of2Outs"></h5>
+        </div>
+        <div class='playerBox2 center' >Player Two Score
+            <h1 id="player1of2">301</h1>
+            <h5 id="player2of2Outs"></h5>
+        </div>
+    </div>
+    <div id="playerBox3" class="hidden">
+        <div class='playerBox3 center' >Player One Score
+            <h1 id="player1of3">301</h1>
+            <h5 id="player1of3Outs"></h5>
+        </div>
+        <div class='playerBox3 center' >Player Two Score
+            <h1 id="player2of3">301</h1>
+            <h5 id="player2of3Outs"></h5>
+        </div>
+        <div class='playerBox3 center' >Player Three Score
+            <h1 id="player3of3">301</h1>
+            <h5 id="player3of3Outs"></h5>
+        </div>
+    </div>
+    <div id="playerBox4" class="hidden">
+        <div class='playerBox4 center' >Player One Score
+            <h1 id="player1of4">301</h1>
+            <h5 id="player1of4Outs"></h5>
+        </div>
+        <div class='playerBox4 center' >Player Two Score
+            <h1 id="player2of4">301</h1>
+            <h5 id="player2of4Outs"></h5>
+        </div>
+        <div class='playerBox4 center' >Player Three Score
+            <h1 id="player3of4">301</h1>
+            <h5 id="player3of4Outs"></h5>
+        </div>
+        <div class='playerBox4 center' >Player Four Score
+            <h1 id="player4of4">301</h1>
+            <h5 id="player4of4Outs"></h5>
+        </div>
+    </div>
+
+    <div id="scoreGrid" class="parent hidden">
+        <div class="div1"><button class="scoreBtn">1</button></div>
+        <div class="div2"><button class="scoreBtn double">D1</button></div>
+        <div class="div3"><button class="scoreBtn triple">T1</button></div>
+    
+        <div class="div4"><button class="scoreBtn">2</button></div>
+        <div class="div5"><button class="scoreBtn double">D2</button></div>
+        <div class="div6"><button class="scoreBtn triple">T2</button></div>
+    
+        <div class="div7"><button class="scoreBtn">3</button></div>
+        <div class="div8"><button class="scoreBtn double">D3</button></div>
+        <div class="div9"><button class="scoreBtn triple">T3</button></div>
+    
+        <div class="div10"><button class="scoreBtn">4</button></div>
+        <div class="div11"><button class="scoreBtn double">D4</button></div>
+        <div class="div12"><button class="scoreBtn triple">T4</button></div>
+    
+        <div class="div13"><button class="scoreBtn">5</button></div>
+        <div class="div14"><button class="scoreBtn double">D5</button></div>
+        <div class="div15"><button class="scoreBtn triple">T5</button></div>
+    
+        <div class="div16"><button class="scoreBtn">6</button></div>
+        <div class="div17"><button class="scoreBtn double">D6</button></div>
+        <div class="div18"><button class="scoreBtn triple">T6</button></div>
+    
+        <div class="div19"><button class="scoreBtn">7</button></div>
+        <div class="div20"><button class="scoreBtn double">D7</button></div>
+        <div class="div21"><button class="scoreBtn triple">T7</button></div>
+    
+        <div class="div22"><button class="scoreBtn">8</button></div>
+        <div class="div23"><button class="scoreBtn double">D8</button></div>
+        <div class="div24"><button class="scoreBtn triple">T8</button></div>
+    
+        <div class="div25"><button class="scoreBtn">9</button></div>
+        <div class="div26"><button class="scoreBtn double">D9</button></div>
+        <div class="div27"><button class="scoreBtn triple">T9</button></div>
+    
+        <div class="div28"><button class="scoreBtn">10</button></div>
+        <div class="div29"><button class="scoreBtn double">D10</button></div>
+        <div class="div30"><button class="scoreBtn triple">T10</button></div>
+    
+        <div class="div31"><button class="scoreBtn">11</button></div>
+        <div class="div32"><button class="scoreBtn double">D11</button></div>
+        <div class="div33"><button class="scoreBtn triple">T11</button></div>
+    
+        <div class="div34"><button class="scoreBtn">12</button></div>
+        <div class="div35"><button class="scoreBtn double">D12</button></div>
+        <div class="div36"><button class="scoreBtn triple">T12</button></div>
+    
+        <div class="div37"><button class="scoreBtn">13</button></div>
+        <div class="div38"><button class="scoreBtn double">D13</button></div>
+        <div class="div39"><button class="scoreBtn triple">T13</button></div>
+    
+        <div class="div40"><button class="scoreBtn">14</button></div>
+        <div class="div41"><button class="scoreBtn double">D14</button></div>
+        <div class="div42"><button class="scoreBtn triple">T14</button></div>
+    
+        <div class="div43"><button class="scoreBtn">15</button></div>
+        <div class="div44"><button class="scoreBtn double">D15</button></div>
+        <div class="div45"><button class="scoreBtn triple">T15</button></div>
+    
+        <div class="div46"><button class="scoreBtn">16</button></div>
+        <div class="div47"><button class="scoreBtn double">D16</button></div>
+        <div class="div48"><button class="scoreBtn triple">T16</button></div>
+    
+        <div class="div49"><button class="scoreBtn">17</button></div>
+        <div class="div50"><button class="scoreBtn double">D17</button></div>
+        <div class="div51"><button class="scoreBtn triple">T17</button></div>
+    
+        <div class="div52"><button class="scoreBtn">18</button></div>
+        <div class="div53"><button class="scoreBtn double">D18</button></div>
+        <div class="div54"><button class="scoreBtn triple">T18</button></div>
+    
+        <div class="div55"><button class="scoreBtn">19</button></div>
+        <div class="div56"><button class="scoreBtn double">D19</button></div>
+        <div class="div57"><button class="scoreBtn triple">T19</button></div>
+    
+        <div class="div58"><button class="scoreBtn">20</button></div>
+        <div class="div59"><button class="scoreBtn double">D20</button></div>
+        <div class="div60"><button class="scoreBtn triple">T20</button></div>
+       
+    </div>
+</div>
+
+
+
+</body>
+</html>
