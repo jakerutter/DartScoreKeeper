@@ -291,27 +291,9 @@ function registerScore(throwScore)
 {
     //increment throws by current player
     game.currentThrows += 1;
-    //get current player score element and score value
-    let currentPlayer = game.currentPlayer -1;
-    let currentScoreElem = game.playerScores[currentPlayer];
-    let currentScore = Number(document.getElementById(currentScoreElem).innerHTML);
-    //get the actual points for this throw
-    let cleanThrowScore = getScore(throwScore);
-    //update score (check for BUST)
-    if(currentScore - cleanThrowScore >= 2)
-    {
-        currentScore -= cleanThrowScore;
-    }
-    else
-    {
-        //BUSTED
-        //do not update score
-        alert("BUST");
-    }
-
-    //update score element
-    document.getElementById(currentScoreElem).innerHTML = currentScore;
-
+    //get score and update it accordingly
+    var currentScore = getScoreAndUpdateUI(throwScore);
+    
     //calculate and show outs
     if(currentScore <= 170)
     {
@@ -322,18 +304,53 @@ function registerScore(throwScore)
 
 }
 
-function getScore(throwScore)
+function getScoreAndUpdateUI(throwScore)
+{
+    //get current player score element and score value
+    let currentPlayer = game.currentPlayer -1;
+    let currentScoreElem = game.playerScores[currentPlayer];
+    let currentScore = Number(document.getElementById(currentScoreElem).innerHTML);
+    //get the actual points for this throw
+    let returnVal = getCleanScore(throwScore);
+
+    let cleanThrowScore = returnVal["score"];
+    let isDouble = returnVal["isDouble"];
+    //update score (check for BUST)
+    if(currentScore - cleanThrowScore == 0 && isDouble)
+    {
+        alert("winner!");
+    }
+    else if(currentScore - cleanThrowScore >= 2)
+    {
+        currentScore -= cleanThrowScore;
+    }
+    else
+    {
+        //BUSTED
+        //do not update score
+        console.log("BUST");
+        advanceToNextThrower();
+    }
+
+    //update score element
+    document.getElementById(currentScoreElem).innerHTML = currentScore;
+    return currentScore;
+}
+
+function getCleanScore(throwScore)
 {
     //set score to -1 for error checking
     var score = -1;
     //if the D or T character appears, get the number value of the throw
     var scoreArray;
+    var isDouble = false;
 
     if(throwScore.includes("D"))
     {
         scoreArray = throwScore.split("D");
         score = scoreArray[1];
         score *= 2;
+        isDouble = true;
     }
     else if(throwScore.includes("T"))
     {
@@ -352,7 +369,8 @@ function getScore(throwScore)
         alert("score is -1  error");
     }
     //return the score
-    return score;
+    var returnVal = { "score": score, "isDouble": isDouble };
+    return returnVal;
 }
 
 function calculateAndDisplayOuts(currentScore)
