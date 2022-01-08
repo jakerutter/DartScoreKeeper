@@ -1,8 +1,12 @@
 //TODO
-//figure good way of creating [x] amount of players upon selection and placing the related score element in a collection
-//figure a way to get val of score from button and *2 / *3 for doubles and triples
+//add current player indicator
+//add skip to next player button
+//add 501  
+//add cricket
+//add around the world
 var game  = { 
-    players:0, 
+    players:0,
+    playerBoxes:[],
     playerScores:[],
     playerOutsElems:[], 
     currentPlayer:1,
@@ -184,6 +188,7 @@ function playerSelection(players)
 
         //add 1 player to  game
         game.players = 1;
+        game.playerBoxes.push("playerBox1of1");
         game.playerScores.push("player1of1");
         game.playerOutsElems.push("player1of1Outs");
 
@@ -196,6 +201,7 @@ function playerSelection(players)
 
         //add 2 players to  game
         game.players = 2;
+        game.playerBoxes.push("playerBox1of2", "playerBox2of2");
         game.playerScores.push("player1of2","player2of2");
         game.playerOutsElems.push("player1of2Outs","player2of2Outs");
     }
@@ -207,6 +213,7 @@ function playerSelection(players)
 
         //add 3 players to  game
         game.players = 3;
+        game.playerBoxes.push("playerBox1of3", "playerBox2of3", "playerBox3of3");
         game.playerScores.push("player1of3","player2of3","player3of3");
         game.playerOutsElems.push("player1of3Outs","player2of3Outs","player3of3Outs");
     }
@@ -218,9 +225,12 @@ function playerSelection(players)
 
         //add 4 players to  game
         game.players = 4;
+        game.playerBoxes.push("playerBox1of4", "playerBox2of4", "playerBox3of4", "playerBox4of4");
         game.playerScores.push("player1of4","player2of4","player3of4","player4of4");
         game.playerOutsElems.push("player1of4Outs","player2of4Outs","player3of4Outs","player4of4Outs");
     }
+    //set current player
+    displayCurrentPlayer();
 
     var intro = document.getElementById("introText");
     intro.classList.add("hidden");
@@ -290,6 +300,7 @@ function registerScore(throwScore)
         }
         //reset current throws to 0
         game.currentThrows = 0;
+        displayCurrentPlayer();
     }
 }
 
@@ -347,3 +358,17 @@ function calculateAndDisplayOuts(currentScore)
     }
 }
 
+function displayCurrentPlayer()
+{
+    //clear all current player displays
+    let playerBoxes = game.playerBoxes;
+    playerBoxes.forEach(function(index){
+        let current = document.getElementById(index);
+        current.classList.remove("currentPlayer");
+    });
+
+    let currentPlayer = game.currentPlayer -1;
+    let currentPlayerElem = game.playerBoxes[currentPlayer];
+    var currentElem = document.getElementById(currentPlayerElem);
+    currentElem.classList.add("currentPlayer");
+}

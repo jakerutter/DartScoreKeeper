@@ -29,7 +29,7 @@ html, body {
     width:50%;
     margin:none;
     height:15em;
-    outline: rgb(228, 160, 72) 5px;
+    outline: rgb(228, 160, 72) 2px;
     outline-style: groove;
 }
 
@@ -42,7 +42,7 @@ html, body {
     height:15em;
     margin-left: 2em;
     margin-right: 2em;
-    outline: rgb(228, 160, 72) 5px;
+    outline: rgb(228, 160, 72) 2px;
     outline-style: groove;
 }
 
@@ -53,7 +53,7 @@ html, body {
     margin:none;
     float:left;
     height:15em;
-    outline: rgb(228, 160, 72) 5px;
+    outline: rgb(228, 160, 72) 2px;
     outline-style: groove;
 }
 
@@ -64,7 +64,7 @@ html, body {
     margin:none;
     float:left;
     height:15em;
-    outline: rgb(228, 160, 72) 5px;
+    outline: rgb(228, 160, 72) 2px;
     outline-style: groove;
 }
 
@@ -75,6 +75,11 @@ html, body {
 #scoreGrid{
     clear:both;
     padding-top: 3em;
+}
+
+.currentPlayer{
+    border:blue 5px solid;
+    border-radius: 5px;
 }
 
 button.gutter-sm{
