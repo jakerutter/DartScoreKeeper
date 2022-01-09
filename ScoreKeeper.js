@@ -392,23 +392,37 @@ function getCleanScore(throwScore)
     //if the D or T character appears, get the number value of the throw
     var scoreArray;
     var isDouble = false;
+    var returnVal = { "score": score, "isDouble": isDouble };
 
-    if(throwScore.includes("D"))
+    if(throwScore == "BULL")
+    {
+        returnVal.score = 25;
+        return returnVal;
+    }
+    else if(throwScore == "DBULL")
+    {
+        returnVal.score = 50;
+        returnVal.isDouble = true;
+        return returnVal;
+    }
+    else if(throwScore.includes("D"))
     {
         scoreArray = throwScore.split("D");
         score = scoreArray[1];
         score *= 2;
-        isDouble = true;
+        returnVal.score = score;
+        returnVal.isDouble = true;
     }
     else if(throwScore.includes("T"))
     {
         scoreArray = throwScore.split("T");  
         score = scoreArray[1];
         score *= 3;
+        returnVal.score = score;
     }
     else
     {
-        score = throwScore;
+        returnVal.score = throwScore;
     }
    
     //error checking
@@ -417,7 +431,7 @@ function getCleanScore(throwScore)
         alert("score is -1  error");
     }
     //return the score
-    var returnVal = { "score": score, "isDouble": isDouble };
+    
     return returnVal;
 }
 
