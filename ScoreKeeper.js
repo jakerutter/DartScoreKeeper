@@ -211,6 +211,8 @@ function gameSetup(players)
     }
 
     initBeginningScoreForAllPlayers();
+    setTitleText();
+
     //set current player
     displayCurrentPlayer();
     //hide intro and show game boxes
@@ -447,6 +449,12 @@ function calculateAndDisplayOuts(currentScore)
             elem.innerHTML += index + "</br>";
         });
     }
+}
+
+function setTitleText()
+{
+    let text = document.getElementById("titleText");
+    text.innerHTML = "Game of " + game.beginningScore;
 }
 
 function displayCurrentPlayer()
