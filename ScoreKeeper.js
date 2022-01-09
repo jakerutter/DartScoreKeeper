@@ -425,13 +425,6 @@ function getCleanScore(throwScore)
         returnVal.score = throwScore;
     }
    
-    //error checking
-    if(score == -1)
-    {
-        alert("score is -1  error");
-    }
-    //return the score
-    
     return returnVal;
 }
 
