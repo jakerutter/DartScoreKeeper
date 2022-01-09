@@ -1,21 +1,25 @@
 //TODO
 //add undo - go back functionality { this would require an object that maintains the history of previous throws / scores }
 //add bull and double bull score buttons
-//bust needs to immediately skip turn
-//add 501  
+//!!!! - use playerScore array to keep track of player score for 301 and 501 instead of innerHtml
+//present winner with winner modal
+
 //add cricket
 //add around the world
 var game  = { 
     players:0,
+    beginningScore:0,
     playerBoxes:[],
     playerScores:[],
+    playerScoreElems:[],
     playerOutsElems:[], 
     currentPlayer:1,
     currentThrows:0
 };
 
-var gameHistory = {
-
+var gameType = {
+    "301":301,
+    "501":501
 }
 
 var possibleOuts = {
@@ -183,8 +187,12 @@ var possibleOuts = {
     170 : ['T20 T20 BULL']
 };
 
-function playerSelection(players)
+function gameSetup(players)
 {
+    //get game selection
+    var selectedGame = getSelectedGame();
+    game.beginningScore = gameType[selectedGame];
+
     if(players == 1)
     {
         initSinglePlayerGame();
@@ -202,6 +210,7 @@ function playerSelection(players)
         initFourPlayerGame();
     }
 
+    initBeginningScoreForAllPlayers();
     //set current player
     displayCurrentPlayer();
     //hide intro and show game boxes
@@ -219,7 +228,7 @@ function initSinglePlayerGame()
      //add 1 player to  game
      game.players = 1;
      game.playerBoxes.push("playerBox1of1");
-     game.playerScores.push("player1of1");
+     game.playerScoreElems.push("player1of1");
      game.playerOutsElems.push("player1of1Outs");
 }
 
@@ -232,7 +241,7 @@ function  initTwoPlayerGame()
     //add 2 players to  game
     game.players = 2;
     game.playerBoxes.push("playerBox1of2", "playerBox2of2");
-    game.playerScores.push("player1of2","player2of2");
+    game.playerScoreElems.push("player1of2","player2of2");
     game.playerOutsElems.push("player1of2Outs","player2of2Outs");
 }
 
@@ -245,7 +254,7 @@ function initThreePlayerGame()
     //add 3 players to  game
     game.players = 3;
     game.playerBoxes.push("playerBox1of3", "playerBox2of3", "playerBox3of3");
-    game.playerScores.push("player1of3","player2of3","player3of3");
+    game.playerScoreElems.push("player1of3","player2of3","player3of3");
     game.playerOutsElems.push("player1of3Outs","player2of3Outs","player3of3Outs");
 }
 
@@ -258,8 +267,36 @@ function initFourPlayerGame()
     //add 4 players to  game
     game.players = 4;
     game.playerBoxes.push("playerBox1of4", "playerBox2of4", "playerBox3of4", "playerBox4of4");
-    game.playerScores.push("player1of4","player2of4","player3of4","player4of4");
+    game.playerScoreElems.push("player1of4","player2of4","player3of4","player4of4");
     game.playerOutsElems.push("player1of4Outs","player2of4Outs","player3of4Outs","player4of4Outs");
+}
+
+function getSelectedGame()
+{
+    var radioObj = document.gameOptions.gameSelection;
+    for(let i=0; i<radioObj.length; i++)
+    {
+        if(radioObj[i].checked)
+        {
+            return radioObj[i].value;
+        }
+    }
+}
+
+function initBeginningScoreForAllPlayers()
+{
+
+    game.playerScoreElems.forEach(function(index)
+    {
+        let elem = document.getElementById(index);
+        elem.innerHTML = game.beginningScore;
+    });
+
+    for(let i=0; i<game.players; i++)
+    {
+        game.playerScores.push(game.beginningScore);
+    }
+
 }
 
 function initScoreButtons()
@@ -310,33 +347,41 @@ function getScoreAndUpdateUI(throwScore)
 {
     //get current player score element and score value
     let currentPlayer = game.currentPlayer -1;
-    let currentScoreElem = game.playerScores[currentPlayer];
-    let currentScore = Number(document.getElementById(currentScoreElem).innerHTML);
+    let currentScoreElem = game.playerScoreElems[currentPlayer];
+    //get current player score
+    //let currentScore = Number(document.getElementById(currentScoreElem).innerHTML);
+    let currentScore = game.playerScores[currentPlayer];
     //get the actual points for this throw
     let returnVal = getCleanScore(throwScore);
 
     let cleanThrowScore = returnVal["score"];
     let isDouble = returnVal["isDouble"];
+
     //update score (check for BUST)
     if(currentScore - cleanThrowScore == 0 && isDouble)
     {
-        alert("winner!");
+        //update game object
+        game.playerScores[currentPlayer] = 0;
+        //update score element
+        document.getElementById(currentScoreElem).innerHTML = game.playerScores[currentPlayer];
+        showWinModal();
     }
     else if(currentScore - cleanThrowScore >= 2)
     {
         currentScore -= cleanThrowScore;
+        //update game object
+        game.playerScores[currentPlayer] = currentScore;
+        //update score element
+        document.getElementById(currentScoreElem).innerHTML = game.playerScores[currentPlayer];
     }
     else
     {
         //BUSTED
         //do not update score
-        console.log("BUST");
         showBustModal();
         advanceToNextThrower(true);
     }
 
-    //update score element
-    document.getElementById(currentScoreElem).innerHTML = currentScore;
     return currentScore;
 }
 
@@ -414,7 +459,7 @@ function displayCurrentPlayer()
 
 function showBustModal()
 {
-    var modal = document.getElementById("modalContent");
+    var modal = document.getElementById("bustModal");
     modal.style["display"] = "block";
     
     setTimeout(hideBustModal, 1000);
@@ -422,8 +467,14 @@ function showBustModal()
 
 function hideBustModal()
 {
-    var modal = document.getElementById("modalContent");
+    var modal = document.getElementById("bustModal");
     modal.style["display"] = "none";
+}
+
+function showWinModal()
+{
+    var modal = document.getElementById("winModal");
+    modal.style["display"] = "block";
 }
 
 function advanceToNextThrower(force)

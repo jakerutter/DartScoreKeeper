@@ -9,6 +9,9 @@ html, body {
 
 .selBtn{
     margin-top:25px;
+    width: 5em;
+    height:4em;
+    border-radius: 5px;
 }
 
 .double{
@@ -107,7 +110,7 @@ button.gutter-sm{
     margin:4em;
 }
 
-.modal{
+.bustModal{
     position:fixed;
     top:20%;
     bottom:0px;
@@ -117,6 +120,21 @@ button.gutter-sm{
     z-index: 1000;
     background-color: red;
     color:white;
+    display: none;
+    height: 5em;
+    border-radius: 10px;
+}
+
+.winModal{
+    position:fixed;
+    top:20%;
+    bottom:0px;
+    left:35%;
+    right:35%;
+    opacity: 0.7;
+    z-index: 1000;
+    background-color: gold;
+    color:black;
     display: none;
     height: 5em;
     border-radius: 10px;

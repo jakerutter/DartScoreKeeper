@@ -4,20 +4,30 @@
 <head>
 <script src="ScoreKeeper.js"></script>
 <link rel="stylesheet" type="text/css" href="Style.css">
+<title>Dart Scoring</title>
 </head>
 <body>
-<h1>301 Scoring</h1>
+<h1 id="titleText">Pick the Game and Number of Players</h1>
 
 <div id="introText">
-    <div>How many players are playing 301? (1-4)</div>
-    <div>
-        <button class="selBtn" onclick="playerSelection(1);">1</button>
-        <button class="selBtn" onclick="playerSelection(2);">2</button>
-        <button class="selBtn" onclick="playerSelection(3);">3</button>
-        <button class="selBtn" onclick="playerSelection(4);">4</button>
+    <h3>Choose the game type</h5>
+    <div>  
+        <form id="gameOptions" name="gameOptions">
+            <input type="radio" id="301" value="301" name="gameSelection" checked>
+            <label  for="301">301 [Double Out]</label>
+            <input type="radio" id="501" value="501" name="gameSelection">
+            <label  for="501">501 [Double Out]</label>
+        </form>
     </div>
-</div>  
 
+    <h3 id="playerSelectDiv">How many players are playing? (1-4)</h5>
+    <div>
+        <button class="selBtn" onclick="gameSetup(1);">1</button>
+        <button class="selBtn" onclick="gameSetup(2);">2</button>
+        <button class="selBtn" onclick="gameSetup(3);">3</button>
+        <button class="selBtn" onclick="gameSetup(4);">4</button>
+    </div>
+</div>
 
 <div id="playerBoxes" class="playerBoxes center hidden">
     <div id="playerBox1" class="hidden">
@@ -166,7 +176,9 @@
 
 </div>
 
-<div id="modalContent" class="modal"><h1>BUST</h1></div>
+<div id="bustModal" class="bustModal"><h1>BUST</h1></div>
+<div id="winModal" class="winModal"><h1>WINNER</h1></div>
+
 
 </body>
 </html>
